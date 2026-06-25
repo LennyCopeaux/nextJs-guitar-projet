@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
-import { CartProvider } from "@/components/cart/cart-context";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,9 +34,7 @@ export default function RootLayout({
       lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} h-full antialiased`}
     >
-      <body className="min-h-full">
-        <CartProvider>{children}</CartProvider>
-      </body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }

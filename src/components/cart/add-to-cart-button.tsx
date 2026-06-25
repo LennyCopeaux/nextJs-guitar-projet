@@ -1,23 +1,46 @@
 "use client";
 
-import { useCart } from "./cart-context";
+import { useState } from "react";
+import { dispatchCartUpdated } from "@/lib/cart-events";
 
 type AddToCartButtonProps = {
   slug: string;
-  name: string;
-  price: number;
 };
 
-export function AddToCartButton({ slug, name, price }: AddToCartButtonProps) {
-  const { addToCart } = useCart();
+export function AddToCartButton({ slug }: AddToCartButtonProps) {
+  const [isPending, setIsPending] = useState(false);
+
+  async function handleClick() {
+    setIsPending(true);
+
+    try {
+      const response = await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ slug }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add to cart");
+      }
+
+      dispatchCartUpdated();
+    } catch {
+    } finally {
+      setIsPending(false);
+    }
+  }
 
   return (
     <button
       type="button"
-      onClick={() => addToCart({ slug, name, price })}
-      className="btn-primary"
+      onClick={handleClick}
+      disabled={isPending}
+      className="btn-primary disabled:cursor-not-allowed disabled:opacity-60"
     >
-      Ajouter au panier
+      {isPending ? "Ajout..." : "Ajouter au panier"}
     </button>
   );
 }

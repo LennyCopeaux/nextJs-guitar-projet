@@ -24,7 +24,7 @@ function normalizeSpecs(specs: Prisma.JsonValue): ProductSpecification[] {
     .filter((spec): spec is ProductSpecification => spec !== null);
 }
 
-function toDomainProduct(product: {
+export function toDomainProduct(product: {
   id: number;
   slug: string;
   name: string;

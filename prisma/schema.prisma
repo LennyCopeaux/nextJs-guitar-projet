@@ -7,14 +7,45 @@ datasource db {
 }
 
 model Product {
-  id               Int      @id @default(autoincrement())
-  slug             String   @unique
+  id               Int              @id @default(autoincrement())
+  slug             String           @unique
   name             String
   shortDescription String
   description      String
   imageUrl         String
   price            Float
   specs            Json
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  similarFrom      SimilarProduct[] @relation("SimilarFrom")
+  similarTo        SimilarProduct[] @relation("SimilarTo")
+  cartItems        CartItem[]
+}
+
+model SimilarProduct {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  similarId Int
+  product   Product @relation("SimilarFrom", fields: [productId], references: [id], onDelete: Cascade)
+  similar   Product @relation("SimilarTo", fields: [similarId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, similarId])
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+}
+
+model CartItem {
+  id        Int     @id @default(autoincrement())
+  cartId    String
+  productId Int
+  quantity  Int     @default(1)
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId])
 }

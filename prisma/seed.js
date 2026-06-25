@@ -12,6 +12,15 @@ const prisma = new PrismaClient({
   adapter,
 });
 
+const similarBySlug = {
+  "stratocaster-vintage-sunburst": ["telecaster-deluxe-black", "jazzmaster-classic-cream"],
+  "telecaster-deluxe-black": ["stratocaster-vintage-sunburst", "duo-sonic-seafoam-green"],
+  "jazzmaster-classic-cream": ["jaguar-surf-green", "mustang-competition-red"],
+  "jaguar-surf-green": ["jazzmaster-classic-cream", "mustang-competition-red"],
+  "mustang-competition-red": ["duo-sonic-seafoam-green", "jaguar-surf-green"],
+  "duo-sonic-seafoam-green": ["mustang-competition-red", "telecaster-deluxe-black"],
+};
+
 async function main() {
   const filePath = path.join(
     process.cwd(),
@@ -46,6 +55,37 @@ async function main() {
         specs: product.specs,
       },
     });
+  }
+
+  const dbProducts = await prisma.product.findMany();
+  const productsBySlug = Object.fromEntries(dbProducts.map((product) => [product.slug, product]));
+
+  await prisma.similarProduct.deleteMany();
+
+  for (const [slug, similarSlugs] of Object.entries(similarBySlug)) {
+    const product = productsBySlug[slug];
+
+    if (!product) continue;
+
+    for (const similarSlug of similarSlugs) {
+      const similar = productsBySlug[similarSlug];
+
+      if (!similar) continue;
+
+      await prisma.similarProduct.upsert({
+        where: {
+          productId_similarId: {
+            productId: product.id,
+            similarId: similar.id,
+          },
+        },
+        update: {},
+        create: {
+          productId: product.id,
+          similarId: similar.id,
+        },
+      });
+    }
   }
 }
 

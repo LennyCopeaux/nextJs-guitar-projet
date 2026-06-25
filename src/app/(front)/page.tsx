@@ -42,11 +42,7 @@ export default async function HomePage() {
                   <Link href={`/products/${product.slug}`} className="btn-outline">
                     Voir la fiche
                   </Link>
-                  <AddToCartButton
-                    slug={product.slug}
-                    name={product.name}
-                    price={product.price}
-                  />
+                  <AddToCartButton slug={product.slug} />
                 </div>
               </div>
             </article>
