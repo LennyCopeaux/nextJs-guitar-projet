@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f6f4;
+  --foreground: #111111;
+  --surface: #ffffff;
+  --brand: #d71920;
+  --brand-strong: #991016;
+  --muted: #6b6b6b;
+  --line: #e6e3de;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-dancing-script);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+  background-image: linear-gradient(to bottom, #f5f4f2 0%, #f8f8f8 40%, #f7f6f4 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-fade {
+  animation: pageFade 0.5s ease;
+}
+
+.btn-primary {
+  border-radius: 9999px;
+  background: var(--foreground);
+  color: #fff;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background-color 160ms ease;
+}
+
+.btn-primary:hover {
+  background: #2a2a2a;
+}
+
+.btn-outline {
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: border-color 160ms ease;
+}
+
+.btn-outline:hover {
+  border-color: #c9c4bd;
+}
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

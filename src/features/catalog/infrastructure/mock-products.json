@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "slug": "stratocaster-vintage-sunburst",
+    "name": "Stratocaster Vintage Sunburst",
+    "shortDescription": "Guitare electrique 3 micros simple bobinage",
+    "description": "Un classique polyvalent pour le funk, le blues et la pop moderne. Manche confortable en erable, touche en palissandre, son clair precis et excellent comportement avec les pedales.",
+    "imageUrl": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1200&q=80",
+    "price": 1199,
+    "specs": [
+      { "label": "Corps", "value": "Aulne" },
+      { "label": "Manche", "value": "Erable" },
+      { "label": "Micros", "value": "SSS Alnico V" },
+      { "label": "Diapason", "value": "25.5 pouces" }
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "telecaster-deluxe-black",
+    "name": "Telecaster Deluxe Black",
+    "shortDescription": "Guitare electrique twang moderne et attaque nette",
+    "description": "Une Tele orientee scene : attaques franches, sustain stable et excellente definition en rythmique comme en lead. Finition noir mat elegante.",
+    "imageUrl": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1200&q=80",
+    "price": 999,
+    "specs": [
+      { "label": "Corps", "value": "Frene" },
+      { "label": "Manche", "value": "Erable" },
+      { "label": "Micros", "value": "SS Alnico" },
+      { "label": "Chevalet", "value": "3 pontets laiton" }
+    ]
+  },
+  {
+    "id": 3,
+    "slug": "jazzmaster-classic-cream",
+    "name": "Jazzmaster Classic Cream",
+    "shortDescription": "Guitare offset au son chaud et enveloppant",
+    "description": "Le charme des offsets : vibrato flottant, micros larges et timbre veloute. Ideale pour le surf, l'indie et les textures atmospheriques.",
+    "imageUrl": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1200&q=80",
+    "price": 1349,
+    "specs": [
+      { "label": "Corps", "value": "Aulne" },
+      { "label": "Manche", "value": "Erable" },
+      { "label": "Micros", "value": "JM Wide Range" },
+      { "label": "Vibrato", "value": "Floating tremolo" }
+    ]
+  },
+  {
+    "id": 4,
+    "slug": "jaguar-surf-green",
+    "name": "Jaguar Surf Green",
+    "shortDescription": "Guitare offset courte echelle, son cristallin",
+    "description": "Diapason 24 pouces pour un manche rapide et un son percutant. Circuits de tonalite dedies et look surf retro incontournable.",
+    "imageUrl": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1200&q=80",
+    "price": 1249,
+    "specs": [
+      { "label": "Corps", "value": "Aulne" },
+      { "label": "Diapason", "value": "24 pouces" },
+      { "label": "Micros", "value": "SS Alnico" },
+      { "label": "Finition", "value": "Surf Green" }
+    ]
+  },
+  {
+    "id": 5,
+    "slug": "mustang-competition-red",
+    "name": "Mustang Competition Red",
+    "shortDescription": "Guitare compacte a double circuit",
+    "description": "Format court et leger, parfaite pour les jeunes guitaristes ou les musiciens en deplacement. Double circuit avec interrupteurs individuels par micro.",
+    "imageUrl": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1200&q=80",
+    "price": 849,
+    "specs": [
+      { "label": "Corps", "value": "Aulne" },
+      { "label": "Diapason", "value": "24 pouces" },
+      { "label": "Micros", "value": "SS Alnico" },
+      { "label": "Finition", "value": "Competition Red" }
+    ]
+  },
+  {
+    "id": 6,
+    "slug": "duo-sonic-seafoam-green",
+    "name": "Duo-Sonic Seafoam Green",
+    "shortDescription": "Guitare courte echelle au look vintage",
+    "description": "Entree de gamme premium dans l'univers offset. Manche confortable, son clair et dynamique, finition Seafoam Green iconique des annees 60.",
+    "imageUrl": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1200&q=80",
+    "price": 699,
+    "specs": [
+      { "label": "Corps", "value": "Aulne" },
+      { "label": "Diapason", "value": "24 pouces" },
+      { "label": "Micros", "value": "SS Alnico" },
+      { "label": "Finition", "value": "Seafoam Green" }
+    ]
+  }
+]
