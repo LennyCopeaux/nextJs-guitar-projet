@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { PrismaBetterSqlite3 } = require("@prisma/adapter-better-sqlite3");
 const { PrismaClient } = require("@prisma/client");
+const bcrypt = require("bcryptjs");
 
 const adapter = new PrismaBetterSqlite3({
   url: process.env.DATABASE_URL || "file:./dev.db",
@@ -87,6 +88,39 @@ async function main() {
       });
     }
   }
+
+  const adminPassword = await bcrypt.hash("admin123", 10);
+  const userPassword = await bcrypt.hash("user123", 10);
+
+  await prisma.user.upsert({
+    where: { email: "admin@supa.guitar" },
+    update: {
+      name: "Admin Supa",
+      password: adminPassword,
+      role: "admin",
+    },
+    create: {
+      email: "admin@supa.guitar",
+      name: "Admin Supa",
+      password: adminPassword,
+      role: "admin",
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: "user@supa.guitar" },
+    update: {
+      name: "User Demo",
+      password: userPassword,
+      role: "user",
+    },
+    create: {
+      email: "user@supa.guitar",
+      name: "User Demo",
+      password: userPassword,
+      role: "user",
+    },
+  });
 }
 
 main()

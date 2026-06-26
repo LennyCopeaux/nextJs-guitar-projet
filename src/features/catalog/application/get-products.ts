@@ -1,11 +1,13 @@
+import { unstable_cache } from "next/cache";
 import type { Product } from "../domain/product";
 import { getMockProductBySlug, getMockProducts } from "../infrastructure/mock-repository";
 import {
   getPrismaProductBySlug,
   getPrismaProducts,
 } from "../infrastructure/prisma-repository";
+import { PRODUCTS_TAG } from "@/lib/cache-tags";
 
-export async function getAllProducts(): Promise<Product[]> {
+async function fetchAllProducts(): Promise<Product[]> {
   try {
     const dbProducts = await getPrismaProducts();
 
@@ -18,7 +20,7 @@ export async function getAllProducts(): Promise<Product[]> {
   return getMockProducts();
 }
 
-export async function getProductBySlug(slug: string): Promise<Product | null> {
+async function fetchProductBySlug(slug: string): Promise<Product | null> {
   try {
     const dbProduct = await getPrismaProductBySlug(slug);
 
@@ -29,4 +31,42 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   return getMockProductBySlug(slug);
+}
+
+const getCachedAllProductsInternal = unstable_cache(
+  async () => {
+    const start = performance.now();
+    const products = await fetchAllProducts();
+    console.log(
+      `[products] unstable_cache miss — ${products.length} produits en ${(performance.now() - start).toFixed(0)}ms`,
+    );
+    return products;
+  },
+  ["all-products"],
+  {
+    revalidate: 3600,
+    tags: [PRODUCTS_TAG],
+  },
+);
+
+export async function getAllProducts(): Promise<Product[]> {
+  const start = performance.now();
+  const products = await getCachedAllProductsInternal();
+  console.log(
+    `[products] getAllProducts — ${(performance.now() - start).toFixed(0)}ms (${products.length} produits)`,
+  );
+  return products;
+}
+
+const getCachedProductBySlug = unstable_cache(
+  async (slug: string) => fetchProductBySlug(slug),
+  ["product-by-slug"],
+  {
+    revalidate: 3600,
+    tags: [PRODUCTS_TAG],
+  },
+);
+
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  return getCachedProductBySlug(slug);
 }

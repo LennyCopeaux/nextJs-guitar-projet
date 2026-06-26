@@ -1,16 +1,15 @@
 import Image from "next/image";
-import Link from "next/link";
+import { PrefetchLink } from "@/components/ui/prefetch-link";
 import type { SponsoredProduct } from "@/features/sponsored/domain/sponsored-product";
+import { getAbPrefetchVariant, getPrefetchMode } from "@/lib/ab-prefetch";
 
 type SponsoredProductCardProps = {
   product: SponsoredProduct;
-  showCart?: boolean;
 };
 
-export function SponsoredProductCard({
-  product,
-  showCart = false,
-}: SponsoredProductCardProps) {
+export async function SponsoredProductCard({ product }: SponsoredProductCardProps) {
+  const prefetchMode = getPrefetchMode(await getAbPrefetchVariant());
+
   return (
     <article className="overflow-hidden rounded-2xl border border-line bg-white">
       <div className="relative aspect-[4/3] bg-[#eceae6]">
@@ -36,13 +35,15 @@ export function SponsoredProductCard({
           {product.price.toFixed(2)} {product.currencyCode}
         </p>
 
-        <Link href={`/sponsored/${product.handle}`} className="btn-outline inline-flex">
+        <PrefetchLink
+          href={`/sponsored/${product.handle}`}
+          className="btn-outline inline-flex"
+          prefetchMode={prefetchMode}
+        >
           Voir la fiche
-        </Link>
+        </PrefetchLink>
 
-        {showCart ? (
-          <p className="text-xs text-muted">Panier indisponible pour les produits sponsorisés</p>
-        ) : null}
+        <p className="text-xs text-muted">Panier indisponible pour les produits sponsorisés</p>
       </div>
     </article>
   );

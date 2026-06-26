@@ -16,7 +16,7 @@ export async function Footer() {
           <Link href="/admin/products" className="font-semibold text-foreground">
             Aller a l&apos;admin
           </Link>
-          <Link href="/products-parallel/strat-classic-v2" className="font-semibold text-foreground">
+          <Link href="/products-parallel/stratocaster-vintage-sunburst" className="font-semibold text-foreground">
             Demo Parallel Routes
           </Link>
         </div>

@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/products/product-detail";
-import { getProductBySlug } from "@/features/catalog/application/get-products";
+import { getAllProducts, getProductBySlug } from "@/features/catalog/application/get-products";
 
 type ProductParallelPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateStaticParams() {
+  const products = await getAllProducts();
+  return products.map((product) => ({ slug: product.slug }));
+}
 
 export default async function ProductParallelPage({
   params,

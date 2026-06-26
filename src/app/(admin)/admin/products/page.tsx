@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { connection } from "next/server";
 import { getPrismaProducts } from "@/features/catalog/infrastructure/prisma-repository";
 
 export default async function AdminProductsPage() {
+  await connection();
   const products = await getPrismaProducts();
 
   return (
@@ -14,7 +16,7 @@ export default async function AdminProductsPage() {
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">Guitares en base</h1>
         <p className="mt-2 text-sm text-muted">
           {products.length} guitare{products.length > 1 ? "s" : ""} enregistree
-          {products.length > 1 ? "s" : ""} dans SQLite
+          {products.length > 1 ? "s" : ""} dans SQLite — page protégée par proxy.ts
         </p>
       </div>
 
@@ -26,7 +28,7 @@ export default async function AdminProductsPage() {
               <th className="px-4 py-3 font-medium">Nom</th>
               <th className="px-4 py-3 font-medium">Slug</th>
               <th className="px-4 py-3 font-medium">Prix</th>
-              <th className="px-4 py-3 font-medium">Fiche</th>
+              <th className="px-4 py-3 font-medium">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -47,12 +49,20 @@ export default async function AdminProductsPage() {
                 <td className="px-4 py-3 text-muted">{product.slug}</td>
                 <td className="px-4 py-3 font-semibold">{product.price.toFixed(2)} EUR</td>
                 <td className="px-4 py-3">
-                  <Link
-                    href={`/products/${product.slug}`}
-                    className="text-sm font-semibold text-brand hover:underline"
-                  >
-                    Voir
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <Link
+                      href={`/products/${product.slug}`}
+                      className="text-sm font-semibold text-brand hover:underline"
+                    >
+                      Voir
+                    </Link>
+                    <Link
+                      href={`/admin/products/${product.slug}/edit`}
+                      className="text-sm font-semibold text-foreground hover:underline"
+                    >
+                      Modifier
+                    </Link>
+                  </div>
                 </td>
               </tr>
             ))}

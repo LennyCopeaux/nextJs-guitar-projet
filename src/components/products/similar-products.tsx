@@ -1,16 +1,19 @@
 import Image from "next/image";
-import Link from "next/link";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { PrefetchLink } from "@/components/ui/prefetch-link";
 import type { Product } from "@/features/catalog/domain/product";
+import { getAbPrefetchVariant, getPrefetchMode } from "@/lib/ab-prefetch";
 
 type SimilarProductsProps = {
   products: Product[];
 };
 
-export function SimilarProducts({ products }: SimilarProductsProps) {
+export async function SimilarProducts({ products }: SimilarProductsProps) {
   if (products.length === 0) {
     return null;
   }
+
+  const prefetchMode = getPrefetchMode(await getAbPrefetchVariant());
 
   return (
     <section className="space-y-4">
@@ -41,9 +44,13 @@ export function SimilarProducts({ products }: SimilarProductsProps) {
               <p className="text-lg font-semibold">{product.price.toFixed(2)} EUR</p>
 
               <div className="flex items-center gap-2">
-                <Link href={`/products/${product.slug}`} className="btn-outline">
+                <PrefetchLink
+                  href={`/products/${product.slug}`}
+                  className="btn-outline"
+                  prefetchMode={prefetchMode}
+                >
                   Voir la fiche
-                </Link>
+                </PrefetchLink>
                 <AddToCartButton slug={product.slug} />
               </div>
             </div>
