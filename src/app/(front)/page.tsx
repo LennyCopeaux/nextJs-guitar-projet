@@ -1,13 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getAllProducts } from "@/features/catalog/application/get-products";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { RefreshSponsoredButton } from "@/components/sponsored/refresh-sponsored-button";
+import { SponsoredProductsStream } from "@/components/sponsored/sponsored-products-stream";
+import { SectionSkeleton } from "@/components/ui/section-skeleton";
 
 export default async function HomePage() {
   const products = await getAllProducts();
 
   return (
     <div className="space-y-10">
+      <Suspense
+        fallback={
+          <SectionSkeleton title="Produits sponsorisés (GraphQL)..." lines={5} />
+        }
+      >
+        <SponsoredProductsStream
+          first={6}
+          action={<RefreshSponsoredButton />}
+        />
+      </Suspense>
+
       <section>
         <div className="mb-4 flex items-end justify-between">
           <h2 className="text-2xl font-semibold">Nos guitares</h2>

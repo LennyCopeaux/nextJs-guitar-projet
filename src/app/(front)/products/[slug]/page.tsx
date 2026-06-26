@@ -1,16 +1,14 @@
-import { notFound } from "next/navigation";
-import { ProductDetail } from "@/components/products/product-detail";
-import { getSimilarProducts } from "@/features/catalog/application/get-similar-products";
-import {
-  getAllProducts,
-  getProductBySlug,
-} from "@/features/catalog/application/get-products";
+import { Suspense } from "react";
+import { ProductAnalyticsPanel } from "@/components/products/product-analytics-panel";
+import { ProductMainSection } from "@/components/products/product-main-section";
+import { SimilarProductsStream } from "@/components/products/similar-products-stream";
+import { SponsoredProductsStream } from "@/components/sponsored/sponsored-products-stream";
+import { SectionSkeleton } from "@/components/ui/section-skeleton";
+import { getAllProducts } from "@/features/catalog/application/get-products";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
-
-export const revalidate = 60;
 
 export async function generateStaticParams() {
   const products = await getAllProducts();
@@ -22,14 +20,25 @@ export async function generateStaticParams() {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const [product, similarProducts] = await Promise.all([
-    getProductBySlug(slug),
-    getSimilarProducts(slug),
-  ]);
 
-  if (!product) {
-    notFound();
-  }
+  return (
+    <div className="space-y-10">
+      <ProductMainSection slug={slug} />
 
-  return <ProductDetail product={product} similarProducts={similarProducts} />;
+      <Suspense fallback={<SectionSkeleton title="Analyse produit (unstable_cache)..." lines={3} />}>
+        <ProductAnalyticsPanel slug={slug} />
+      </Suspense>
+
+      <Suspense fallback={<SectionSkeleton title="Produits similaires..." lines={4} />}>
+        <SimilarProductsStream slug={slug} />
+      </Suspense>
+
+      <Suspense fallback={<SectionSkeleton title="Produits sponsorisés..." lines={4} />}>
+        <SponsoredProductsStream
+          first={3}
+          title="Produits sponsorisés sur cette fiche"
+        />
+      </Suspense>
+    </div>
+  );
 }

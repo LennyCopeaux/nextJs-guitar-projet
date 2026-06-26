@@ -1,27 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Suspense } from "react";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { ProductTabs } from "@/components/products/product-tabs";
-import { SimilarProducts } from "@/components/products/similar-products";
 import type { Product } from "@/features/catalog/domain/product";
 
 type ProductDetailProps = {
   product: Product;
-  similarProducts: Product[];
 };
 
-export function ProductDetail({ product, similarProducts }: ProductDetailProps) {
+export function ProductDetail({ product }: ProductDetailProps) {
   return (
-    <div className="space-y-10">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-2 py-2 text-sm font-semibold text-foreground/80 transition-colors hover:text-foreground"
-      >
-        <span aria-hidden="true">←</span>
-        Retour au catalogue
-      </Link>
-
       <article className="grid gap-7 rounded-3xl border border-line bg-white p-4 md:grid-cols-2 md:p-7">
         <div className="relative aspect-square overflow-hidden rounded-2xl bg-[#eceae6]">
           <Image
@@ -46,23 +33,12 @@ export function ProductDetail({ product, similarProducts }: ProductDetailProps) 
 
           <AddToCartButton slug={product.slug} />
 
-          <Suspense
-            fallback={
-              <div className="rounded-2xl border border-line p-4 text-sm text-muted">
-                Chargement des onglets...
-              </div>
-            }
-          >
-            <ProductTabs
-              slug={product.slug}
-              description={product.description}
-              specs={product.specs}
-            />
-          </Suspense>
+          <ProductTabs
+            slug={product.slug}
+            description={product.description}
+            specs={product.specs}
+          />
         </div>
       </article>
-
-      <SimilarProducts products={similarProducts} />
-    </div>
   );
 }
