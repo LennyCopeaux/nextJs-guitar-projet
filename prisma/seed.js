@@ -2,7 +2,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { PrismaBetterSqlite3 } = require("@prisma/adapter-better-sqlite3");
-const { PrismaClient } = require("../src/generated/prisma");
+const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
 
 const adapter = new PrismaBetterSqlite3({
